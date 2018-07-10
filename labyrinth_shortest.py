@@ -21,7 +21,7 @@ def clear_maze(sx, sy, gx, gy, maze):
         queue = []
 
         queue.insert(0, (sx, sy))
-        print(queue)
+        #print(queue)
         distance[sx][sy] = 0
 
         while len(queue):
@@ -37,37 +37,31 @@ def clear_maze(sx, sy, gx, gy, maze):
                     #print(queue)
                     distance[nx][ny] = distance[x][y] + 1
 
-        print(distance)
+        #print(distance)
         return distance[gx][gy]
 
     return bfs()
 
 def shortest_pass(sx,sy,gx,gy,maze):
     INF = 100000000
-
+    anser = []
     field_x_length = len(maze)#Row
     field_y_length = len(maze[0])#Colum
     distance = [[INF for i in range(field_x_length)] for j in range(field_y_length)]
-    q = [[sx,sy]]
+    q = [[[sx,sy]]]
     while len(q) > 0:
         path = q.pop(0)
         n = path[len(path)-1]
-        print(path)
-        if n!=1:
-            x = n[0]
-            y = n[1]
-        else:
-            x = path[0]
-            y = path[1]
+        x = n[0]
+        y = n[1]
         if x == gx and y == gy:
-            #print(path)
+            print(path)
             break
         else:
             for i in range(0, 4):
                 nx, ny = x + [1, 0, -1, 0][i], y + [0, 1, 0, -1][i]
                 if (0 <= nx and nx < field_x_length and 0 <= ny and ny < field_y_length and maze[nx][ny] != '#' and distance[nx][ny] == INF):
                     new_path = path[:]
-                    new_path = [new_path]
                     new_path.append([nx,ny])
                     distance[nx][ny] = distance[x][y] + 1
                     q.append(new_path)
@@ -89,5 +83,5 @@ maze = [
 
 sx, sy = 0, 1 # スタート地点の座標
 gx, gy = 9, 8 # ゴール地点の座標
-#print (clear_maze(sx, sy, gx, gy, maze))
+print (clear_maze(sx, sy, gx, gy, maze))
 shortest_pass(sx,sy,gx,gy,maze)
